@@ -2,7 +2,8 @@ import CutCornerButton from "../components/CutCornerButton"
 import Heaxagon from "../components/Heaxagon"
 import Circle from "../components/Circle"
 
-const Hero = (props: Props) => {
+
+const Hero = () => {
   return (
     <section className="py-24 md:py-52 overflow-x-clip">
         <div className="container">
@@ -63,7 +64,7 @@ const Hero = (props: Props) => {
               <div className="h-10 w-5 outline outline-[6px] outline-fuchsia-500/10 inline-flex rounded-full justify-center pt-2">
                 <div className="h-3 w-1 bg-fuchsia-500 rounded-full"></div>
               </div>
-              <p className="uppercase text-zinc-500 font-extrabold tracking-wider">Scrroll to learn more</p>
+              <p className="uppercase text-zinc-500 font-extrabold tracking-wider">Scroll to learn more</p>
             </div>
               
         </div>
