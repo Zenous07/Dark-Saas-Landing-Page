@@ -4,6 +4,15 @@ import Header from '../sections/Header.tsx'
 import Hero from "../sections/Hero";
 import FeaturesCard from "../sections/FeaturesCard";
 import FeaturesGrid from "../sections/FeaturesGrid";
+import LatestPost from "../sections/LatestPost";
+
+import { getCollection } from "astro:content";
+const posts = await getCollection('blog');
+const latestPosts = posts.sort((a,b)=>{
+  if(a.data.pubDate.valueOf()=== b.data.pubDate.valueOf()) return 0;
+  return a.data.pubDate.valueOf()>b.data.pubDate.valueOf() ? -1:1;
+}).slice(0,4)
+
 ---
 
 <DefaultLayout>
@@ -11,4 +20,5 @@ import FeaturesGrid from "../sections/FeaturesGrid";
   <Hero />
   <FeaturesCard />
   <FeaturesGrid />
+  <LatestPost latestPosts={latestPosts}/>
 </DefaultLayout>
