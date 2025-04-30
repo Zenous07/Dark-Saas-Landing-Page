@@ -22,18 +22,18 @@ const Footer = () => {
                         alt='Blockforge logo'
                     />
                 </div>
-                <nav className='hidden md:flex text-zinc-500 font-heading font-black gap-12'>
-                    <a href='#'>Home</a>
-                    <a href='#'>Blog</a>
-                    <a href='#'>Careers</a>
-                    <a href='#'>Contact</a>
+                <nav className='hidden md:flex text-zinc-500 font-heading font-black gap-12 '>
+                    <a href='#' className='hover:text-zinc-400'>Home</a>
+                    <a href='#' className='hover:text-zinc-400'>Blog</a>
+                    <a href='#' className='hover:text-zinc-400'>Careers</a>
+                    <a href='#' className='hover:text-zinc-400'>Contact</a>
                 </nav>
             </div>
             <div className='mt-12 md:mt-40 md:flex justify-between items-center'>
                 <p className='text-zinc-400'>&copy; 2025 Blockforge. All rights reserved.</p>
                 <div className='mt-4 md:mt-0 flex gap-6'>
                     {socialIcons.map((icon,iconIndex)=>(
-                        <div className='inline-flex size-10 bg-zinc-800 rounded-full items-center justify-center' key={iconIndex}>
+                        <div className='inline-flex size-10 bg-zinc-800 rounded-full items-center justify-center hover:bg-zinc-400' key={iconIndex}>
                             {icon.icon}
                         </div>
                     ))}

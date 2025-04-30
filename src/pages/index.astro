@@ -19,12 +19,14 @@ const latestPosts = posts.sort((a,b)=>{
 ---
 
 <DefaultLayout>
+
   <Header />
-  <Hero />
+  <Hero client:load/>
   <FeaturesCard />
   <FeaturesGrid />
   <LatestPost latestPosts={latestPosts}/>
   <Testimonials />
   <CallToAction />
   <Footer />
+
 </DefaultLayout>
