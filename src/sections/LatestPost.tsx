@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Card from '../components/Card'
 import { getPostColorFromCategory } from '../utlis/postUtlis'
 import Tag from '../components/Tag'
 import type { CollectionEntry } from 'astro:content'
 import CutCornerButton from '../components/CutCornerButton'
 import { twMerge } from 'tailwind-merge'
+import { useScroll,motion, useTransform } from 'framer-motion'
 
 
 const LatestPost = (props: {latestPosts:CollectionEntry<'blog'>[];}) => {
     const {latestPosts}= props;
+    const targetRef = useRef(null);
+
+    const {scrollYProgress} = useScroll({
+        target:targetRef,
+        offset:['start end','start center'],
+    });
+    const marginTop = useTransform(scrollYProgress,[0,1],[0,64]);
   return (
     <section className='py-60'>
         <div className="container">
@@ -28,7 +36,11 @@ const LatestPost = (props: {latestPosts:CollectionEntry<'blog'>[];}) => {
                             </Card>
                     ))}
                 </div>
-                <div className='hidden md:flex flex flex-col gap-8 mt-14'>
+                <motion.div className='hidden md:flex flex flex-col gap-8 mt-14' 
+                    style={{
+                        marginTop,
+                    }}
+                    ref={targetRef}>
                     {latestPosts.map(({data:{title,description,category}},postIndex)=>(
                             <Card key={postIndex} buttonText='Read More' color={getPostColorFromCategory(category)} className={twMerge((postIndex ===0 || postIndex ===2) && 'md:hidden')}>
                                 <Tag color={getPostColorFromCategory(category)}>{category}</Tag>
@@ -37,7 +49,7 @@ const LatestPost = (props: {latestPosts:CollectionEntry<'blog'>[];}) => {
                                 
                             </Card>
                     ))}
-                </div>
+                </motion.div>
             </div>
             <div className='flex justify-center mt-48 md:mt-32'>
                 <CutCornerButton>Read The Blog</CutCornerButton>
