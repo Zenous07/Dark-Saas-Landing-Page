@@ -1,34 +1,47 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import CutCornerButton from '../components/CutCornerButton'
 import Heaxagon from '../components/Heaxagon'
 import Circle from '../components/Circle'
+import { useScroll, useTransform,motion } from 'framer-motion'
 
 type Props = {}
 
 const CallToAction = (props: Props) => {
+    const sectionRef =useRef(null);
+    const {scrollYProgress}=useScroll({
+        target:sectionRef,
+        offset:['start end','end start'],
+    });
+    const rotate = useTransform(scrollYProgress,[0,1],[-45,45])
   return (
-    <section className='py-60 overflow-hidden'>
+    <section className='py-60 overflow-hidden' ref={sectionRef}>
         <div className="container">
             <div className='relative'>
                 <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-                    <Heaxagon className='size-[700px]'/>
+                    <Heaxagon  size={700}/>
                 </div>
                 <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-                    <Heaxagon className='size-[1100px]'/>
+                    <Heaxagon size={1100} reverse duration={50}/>
                 </div>
                 <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-                    <Circle className='absolute -top-[400px] left-0'>
-                        <img 
+                    <Circle className='absolute -top-[400px] left-0' animate>
+                        <motion.img 
                             src='/assets/images/cuboid.png'
                             className='size-[140px]'
+                            style={{
+                                rotate,
+                            }}
                         />
                     </Circle>
                 </div>
                 <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-                    <Circle className='absolute -top-[50px] -left-[600px]'>
-                        <img 
+                    <Circle className='absolute -top-[50px] -left-[600px]' animate>
+                        <motion.img 
                             src='/assets/images/cylinder.png'
                             className='size-[140px]'
+                            style={{
+                                rotate:rotate
+                            }}
                         />
                     </Circle>
                 </div>
