@@ -1,5 +1,6 @@
 import React from 'react'
 import { twMerge } from 'tailwind-merge'
+import {motion} from 'framer-motion'
 
 const testimonials =[
     {
@@ -26,7 +27,26 @@ const Testimonials = (props: Props) => {
          <div className="container">
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 lg:gap-12'>
                 {testimonials.map((testimonial,index)=>(
-                    <blockquote key={index} className={twMerge(index=== 2 && 'md:hidden lg:block')}> 
+                    <motion.blockquote 
+                        key={index} 
+                        className={twMerge(index=== 2 && 'md:hidden lg:block')}
+                        initial={{
+                            opacity:0,
+                            y:24
+                        }}  
+                        whileInView={{
+                            opacity:1,
+                            y:0
+                        }}  
+                        viewport={{
+                            once:true,
+                        }}
+                        transition={{
+                            delay:index*0.5,
+                            ease:"easeInOut",
+                            duration:1,
+                        }}
+                    > 
                         <p className='font-heading text-3xl font-black lg:text-4xl'>&ldquo;{testimonial.text} &rdquo;</p>
                         <cite className='mt-8 block'>
                             <div className='flex gap-3 items-center'>
@@ -39,7 +59,7 @@ const Testimonials = (props: Props) => {
                                 </div>
                             </div>
                         </cite>
-                    </blockquote>
+                    </motion.blockquote>
                 ))}
             </div>
          </div>
