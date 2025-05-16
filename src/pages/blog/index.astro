@@ -1,8 +1,98 @@
 ---
-// import { getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
+import DefaultLayout from "../../layouts/Default.astro"
+import CutCornerButton from "../../components/CutCornerButton"
+import Heaxagon from "../../components/Heaxagon"
+import Card from '../../components/Card';
+import Tag from '../../components/Tag';
+import { getPostColorFromCategory } from '../../utlis/postUtlis';
+import { twMerge } from 'tailwind-merge';
+import {motion} from 'framer-motion'
 
-// const posts = (await getCollection('blog')).sort(
-// 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-// );
-import Default from "../../layouts/Default.astro"
+const posts = (await getCollection('blog')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const latestPost =posts[0];
+
+const evenPosts = posts.filter((_, i) => i % 2 === 0);
+const oddPosts = posts.filter((_, i) => i % 2 !== 0);
+
 ---
+
+<DefaultLayout>
+    <section class="py-60 relative overflow-x-clip">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Heaxagon size={800} client:load duration={30}></Heaxagon>
+        </div>
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Heaxagon size={1200} client:load reverse duration={50}></Heaxagon>
+        </div>
+        <div class="container">
+            <div class="max-w-3xl mx-auto">
+                <p class="uppercase font-extrabold text-center text-zinc-500 tracking-wide">Latest Post</p>
+                <h1 class="font-heading font-black text-5xl md:text-6xl lg:text-7xl text-center mt-4">{latestPost.data.title}</h1>
+                <p class="text-center text-xl md:text-2xl mt-6 text-zinc-400 max-w-xl mx-auto">{latestPost.data.description}</p>
+                <div class="flex justify-center mt-10">
+                    <a href={`/blog/${latestPost.slug}`}>
+                        <CutCornerButton>Read More</CutCornerButton>
+                    </a>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    <section class="py-32 bg-zinc-900/30 backdrop-blur-sm relative">
+        <div class="container">
+            <div class="grid md:grid-cols-2 grid-cols-1 gap-8">
+                <div class="flex flex-col gap-8 lg:gap-12">
+                    {oddPosts.map(({data:{category,title,description},slug},postIndex)=>(
+                        <motion.a
+                        initial={{opacity:0,y:20}} 
+                        whileInView={{opacity:1,y:0}}
+                        viewport={{once:true,amount:0.5}}
+                        transition={{
+                            duration:0.5,
+                            ease:'easeIn',
+                            delay:postIndex*0.2
+                        }}
+                        href={`/blog/${slug}`} 
+                        client:load>
+                            <Card color={getPostColorFromCategory(category)} buttonText="Read More">
+                            <Tag color={getPostColorFromCategory(category)}>{category}</Tag>
+                            <h2 class="font-heading font-black text-3xl mt-4">{title}</h2>
+                            <p class="text-lg mt-6 text-zinc-400">{description}</p>
+                        </Card>
+                        </motion.a>
+                    ))}
+                </div>
+                <div class="flex flex-col lg:gap-12 gap-8 mt-24">
+                    {evenPosts.map(({data:{category,title,description},slug},postIndex)=>(
+                        <motion.a 
+                        href={`/blog/${slug}`} 
+                        client:load
+                        initial={{opacity:0,y:20}} 
+                        whileInView={{opacity:1,y:0}}
+                        viewport={{once:true,amount:0.5}}
+                        transition={{
+                            duration:0.5,
+                            ease:'easeIn',
+                            delay:postIndex*0.1
+                        }}
+                        >
+                            <Card color={getPostColorFromCategory(category)} buttonText="Read More">
+                            <Tag color={getPostColorFromCategory(category)}>{category}</Tag>
+                            <h2 class="font-heading font-black text-3xl mt-4">{title}</h2>
+                            <p class="text-lg mt-6 text-zinc-400">{description}</p>
+                            </Card>
+                        </motion.a>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+</DefaultLayout>

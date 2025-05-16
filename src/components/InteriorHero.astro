@@ -1,0 +1,15 @@
+---
+import Heaxagon from "./Heaxagon"
+---
+
+<section class="py-60 relative overflow-x-clip">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Heaxagon size={800} client:load duration={30}></Heaxagon>
+        </div>
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Heaxagon size={1200} client:load reverse duration={50}></Heaxagon>
+        </div>
+        <div class="container">
+            <slot />
+        </div>
+    </section>
